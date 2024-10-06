@@ -9,5 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan("com/example/notecollector")
 @EnableWebMvc
 @MultipartConfig
+  
 public class WebAppConfig {
 }
