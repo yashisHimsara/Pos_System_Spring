@@ -43,7 +43,7 @@ public class WebAppRootConfig {
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("com.example.notecollector.entity");
+        factory.setPackagesToScan("com.example.possystemspring.entity");
         factory.setDataSource(dataSource());
         return factory;
     }
