@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Component
-@ComponentScan("com/example/notecollector")
+@ComponentScan("com/example/possystemspring")
 @EnableWebMvc
 @MultipartConfig
   

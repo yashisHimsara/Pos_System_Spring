@@ -7,7 +7,7 @@ public class AppUtil {
     public static String generateItemId(){
         return "NOTE-"+UUID.randomUUID();
     }
-    public static String generateUserId(){
+    public static String generateCusId(){
         return "USER-"+UUID.randomUUID();
     }
 }

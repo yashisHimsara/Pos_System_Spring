@@ -8,6 +8,7 @@ import com.example.possystemspring.entity.impl.Customer;
 import com.example.possystemspring.exception.CustomerNotFoundException;
 import com.example.possystemspring.exception.DataPersistException;
 import com.example.possystemspring.service.CustomerService;
+import com.example.possystemspring.util.AppUtil;
 import com.example.possystemspring.util.Mapping;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,44 +26,52 @@ public class CustomerServiceIMPL implements CustomerService {
     private Mapping mapping;
 
     @Override
-    public void saveCustomer(CustomerDTO customerDTO) {
+    public void save(CustomerDTO customerDTO) {
+        customerDTO.setId(AppUtil.generateCusId());
         Customer saveCustomer = customerDao.save(mapping.toCustomerEntity(customerDTO));
         if (saveCustomer == null) {
             throw new DataPersistException("Customer not saved");
         }
     }
+
     @Override
-    public List<CustomerDTO> getAllCustomers() {
+    public List<CustomerDTO> getAll() {
         List<Customer> allCustomers = customerDao.findAll();
         return mapping.asCustomerDTOList(allCustomers);
     }
 
     @Override
-    public CustomerStatus getCustomer(String id) {
-        if(customerDao.existsById(id)){
+    public CustomerDTO get(String id) {
+        if (customerDao.existsById(id)) {
             Customer selectedCustomer = customerDao.getReferenceById(id);
             return mapping.toCustomerDTO(selectedCustomer);
-        }else {
-            return new SelectedErrorStatus(2, "User with id " + id + " not found");
-        }
-    }
-    @Override
-    public void deleteCustomer(String id) {
-        Optional<Customer> existedCustomer = customerDao.findById(id);
-        if(!existedCustomer.isPresent()){
-            throw new CustomerNotFoundException("Customer with id " + id + " not found");
-        }else {
-            customerDao.deleteById(id);
+        } else {
+            throw new DataPersistException("Customer not found");
         }
     }
 
     @Override
-    public void updateCustomer(String id, CustomerDTO customerDTO) {
-        Optional<Customer> tmpUser = customerDao.findById(id);
-        if(tmpUser.isPresent()) {
-            tmpUser.get().setName(customerDTO.getName());
-            tmpUser.get().setAddress(customerDTO.getAddress());
-            tmpUser.get().setSalary(customerDTO.getSalary());
+    public void delete(String id) {
+        Optional<Customer> existedCustomer = customerDao.findById(id);
+        if (!existedCustomer.isPresent()) {
+            throw new CustomerNotFoundException("Customer with id " + id + " not found");
+        } else {
+            customerDao.deleteById(id);
+        }
+    }
+    @Override
+    public void update(String id, CustomerDTO customerDTO) {
+        Optional<Customer> customer = customerDao.findById(id);
+        if (customer == null) {
+            throw new DataPersistException("Customer not found");
+        } else {
+            customer.get().setName(customerDTO.getName());
+            customer.get().setAddress(customerDTO.getAddress());
+            customer.get().setSalary(customerDTO.getSalary());
         }
     }
 }
+
+
+
+

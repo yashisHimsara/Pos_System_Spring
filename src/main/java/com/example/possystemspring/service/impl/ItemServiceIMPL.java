@@ -8,6 +8,7 @@ import com.example.possystemspring.entity.impl.Item;
 import com.example.possystemspring.exception.DataPersistException;
 import com.example.possystemspring.exception.ItemNotFoundException;
 import com.example.possystemspring.service.ItemService;
+import com.example.possystemspring.util.AppUtil;
 import com.example.possystemspring.util.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,45 +25,44 @@ public class ItemServiceIMPL implements ItemService {
     private Mapping mapping;
 
     @Override
-    public void saveItem(ItemDTO itemDTO) {
-        Item saveItem = itemDao.save(mapping.toItemEntity(itemDTO));
-        if (saveItem == null) {
+    public void save(ItemDTO itemDTO) {
+        itemDTO.setId(AppUtil.generateItemId());
+        Item saveitem = itemDao.save(mapping.toItemEntity(itemDTO));
+        if (saveitem == null){
             throw new DataPersistException("Item not saved");
         }
     }
     @Override
-    public List<ItemDTO> getAllItem() {
-        List<Item> allItem = itemDao.findAll();
-        return mapping.asItemDTOList(allItem);
+    public List<ItemDTO> getAll() {
+        return mapping.asItemDTOList(itemDao.findAll());
     }
-
     @Override
-    public ItemStatus getItem(String id) {
-        if(itemDao.existsById(id)){
-            Item selectedItem =  itemDao.getReferenceById(id);
-            return mapping.toItemDTO(selectedItem);
+    public ItemDTO get(String id) {
+        if (itemDao.existsById(id)) {
+            Item item = itemDao.getReferenceById(id);
+            return mapping.toItemDTO(item);
         }else {
-            return new SelectedErrorStatus(2, "Item with id " + id + " not found");
+            throw new DataPersistException("Item not found");
         }
-
     }
     @Override
-    public void deleteItem(String id) {
-        Optional<Item> existedItem = itemDao.findById(id);
-        if(!existedItem.isPresent()){
-            throw new ItemNotFoundException("Item with id " + id + " not found");
+    public void delete(String id) {
+        if (!itemDao.existsById(id)){
+            throw new DataPersistException("Item not found");
         }else {
             itemDao.deleteById(id);
         }
     }
 
     @Override
-    public void updateItem(String id, ItemDTO itemDTO) {
-//        Optional<Item> tmpItem = itemDao.findById(id);
-//        if(tmpItem.isPresent()) {
-//            tmpItem.get().setName(itemDTO.getName());
-//            tmpItem.get().setPrice(ItemDTO.getPrice());
-//            tmpItem.get().setQty(itemDTO.getQty());
-//        }
+    public void update(String id, ItemDTO dto) {
+        Optional<Item> item = itemDao.findById(id);
+        if (item == null){
+            throw new DataPersistException("Item not found");
+        }else {
+            item.get().setName(dto.getName());
+            item.get().setQty(dto.getQty());
+            item.get().setPrice(dto.getPrice());
+        }
     }
 }

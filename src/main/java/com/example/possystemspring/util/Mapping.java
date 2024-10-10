@@ -9,6 +9,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -23,8 +24,20 @@ public class Mapping {
     public CustomerDTO toCustomerDTO(Customer customer){
         return modelMapper.map(customer,CustomerDTO.class);
     }
-    public List<CustomerDTO> asCustomerDTOList(List<Customer> customerEntites) {
-        return modelMapper.map(customerEntites, new TypeToken<List<CustomerDTO>>() {}.getType());
+//    public List<CustomerDTO> asCustomerDTOList(List<Customer> customerEntites) {
+//        return modelMapper.map(customerEntites, new TypeToken<List<CustomerDTO>>() {}.getType());
+//    }
+    public List<CustomerDTO> asCustomerDTOList(List<Customer> customerList){
+        List<CustomerDTO> customerDTOList = new ArrayList<>();
+        for (Customer customer:customerList) {
+            customerDTOList.add(new CustomerDTO(
+                    customer.getId(),
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getSalary()
+            ));
+        }
+        return customerDTOList;
     }
 
 //    Item
@@ -34,7 +47,20 @@ public class Mapping {
     public ItemDTO toItemDTO(Item item){
         return modelMapper.map(item,ItemDTO.class);
     }
-    public List<ItemDTO> asItemDTOList(List<Item> itemEntites) {
-        return modelMapper.map(itemEntites, new TypeToken<List<ItemDTO>>() {}.getType());
+
+//    public List<ItemDTO> asItemDTOList(List<Item> itemEntites) {
+//        return modelMapper.map(itemEntites, new TypeToken<List<ItemDTO>>() {}.getType());
+//    }
+    public List<ItemDTO> asItemDTOList(List<Item> itemList){
+        List<ItemDTO> itemDTOList = new ArrayList<>();
+        for (Item item:itemList) {
+            itemDTOList.add(new ItemDTO(
+                    item.getId(),
+                    item.getName(),
+                    item.getPrice(),
+                    item.getQty()
+            ));
+        }
+        return itemDTOList;
     }
 }
