@@ -1,12 +1,9 @@
 package com.example.possystemspring.service.impl;
 
-import com.example.possystemspring.customStatusCodes.SelectedErrorStatus;
 import com.example.possystemspring.dao.ItemDao;
-import com.example.possystemspring.dto.ItemStatus;
 import com.example.possystemspring.dto.impl.ItemDTO;
 import com.example.possystemspring.entity.impl.Item;
 import com.example.possystemspring.exception.DataPersistException;
-import com.example.possystemspring.exception.ItemNotFoundException;
 import com.example.possystemspring.service.ItemService;
 import com.example.possystemspring.util.AppUtil;
 import com.example.possystemspring.util.Mapping;

@@ -11,18 +11,18 @@ import lombok.NoArgsConstructor;
 @Entity
 public class OrderDetail {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    Order order;
+    private Order order;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
-    Item item;
+    private Item item;
 
     int orderQty;
-    double itemPrice;
+//    double itemPrice;
 }
 

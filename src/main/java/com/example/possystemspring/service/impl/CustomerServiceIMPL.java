@@ -1,8 +1,6 @@
 package com.example.possystemspring.service.impl;
 
-import com.example.possystemspring.customStatusCodes.SelectedErrorStatus;
 import com.example.possystemspring.dao.CustomerDao;
-import com.example.possystemspring.dto.CustomerStatus;
 import com.example.possystemspring.dto.impl.CustomerDTO;
 import com.example.possystemspring.entity.impl.Customer;
 import com.example.possystemspring.exception.CustomerNotFoundException;

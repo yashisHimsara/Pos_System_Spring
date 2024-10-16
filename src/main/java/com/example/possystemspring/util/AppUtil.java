@@ -10,4 +10,10 @@ public class AppUtil {
     public static String generateCusId(){
         return "USER-"+UUID.randomUUID();
     }
+    public static String generateOrderId() {
+        return "Or-"+ UUID.randomUUID();
+    }
+    public static String generateOrderDetailId() {
+        return "OD-"+ UUID.randomUUID();
+    }
 }

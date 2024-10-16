@@ -1,9 +1,6 @@
 package com.example.possystemspring.entity.impl;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,17 +14,21 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Entity
+@Table(name = "orders")
 public class Order {
     @Id
     String orderId;
     Date orderDate;
-    String cusIdOption;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+   private Customer customer;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<OrderDetail> orderDetails;
     String itemIdOption;
     int orderQty;
     double total;
     double txtCash;
     double txtDiscount;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    List<OrderDetail> orderDetails = new ArrayList<>();
 }
