@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -55,7 +54,6 @@ public class ItemController {
     public List<ItemDTO> getAllItems(){
         return itemService.getAll();
     }
-
     @DeleteMapping(value = "/{itemId}")
     public ResponseEntity<Void> deleteItem(@PathVariable("itemId") String itemId){
         try {
